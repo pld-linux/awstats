@@ -18,7 +18,7 @@ Requires:	perl-Storable
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		wwwdir	/srv/httpd/html
+%define		wwwdir	/home/services/httpd/html
 
 %description
 Advanced Web Statistics is a powerful and featureful tool that
