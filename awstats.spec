@@ -9,7 +9,7 @@ Release:	1.20041003.1
 License:	GPL
 Group:		Applications/Networking
 Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tgz
-# Source0-md5:	0a66f4ef996465cbef9b017cf987d471
+# Source0-md5:	7a241cc6a63709508e668ab3aa73b819
 Source1:	%{name}-cron
 Patch0:		%{name}_conf.patch
 URL:		http://awstats.sourceforge.net/
