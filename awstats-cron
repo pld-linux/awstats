@@ -1,0 +1,9 @@
+#!/bin/bash
+# update access statistics for the web site
+
+if [ -s /var/log/httpd/access_log ] ; then
+    /usr/bin/awstats_updateall.pl now -confdir=/etc \
+	-awstatsprog=/home/services/httpd/html/cgi-bin/awstats.pl > /dev/null
+fi
+
+exit 0

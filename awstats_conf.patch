@@ -1,0 +1,55 @@
+--- awstats-5.4.orig/wwwroot/cgi-bin/awstats.model.conf	Thu Jan 16 14:09:32 2003
++++ awstats-5.4/wwwroot/cgi-bin/awstats.model.conf	Mon Jan 27 12:07:07 2003
+@@ -168,7 +168,7 @@
+ # Example: "C:/awstats_data_dir"
+ # Default: "."          (means same directory as awstats.pl)
+ #
+-DirData="."
++DirData="/usr/share/awstats"
+ 
+ 
+ # Relative or absolute web URL of your awstats.pl directory.
+@@ -306,7 +306,7 @@
+ # Possible values: 0 or 1
+ # Default: 0
+ #
+-CreateDirDataIfNotExists=0
++CreateDirDataIfNotExists=1
+ 
+ 
+ # In most case, AWStats is used as a cgi program. So AWStats process is ran
+@@ -688,7 +688,7 @@
+ # Example: 3600
+ # Default: 0
+ #
+-Expires=0
++Expires= 3600
+ 
+ 
+ # To avoid too large web pages, you can ask AWStats to limit number of rows of
+@@ -710,14 +710,14 @@
+ #  Ukrainian=ua, Welsh=wlk
+ # Default: "en"
+ #
+-Lang="en"
++Lang="pl"
+ 
+ 
+ # Set the location of language files.
+ # Example: "/opt/awstats/lang"
+ # Default: "./lang" (means lang directory is in same location than awstats.pl)
+ #
+-DirLang="./lang"
++DirLang="/usr/share/awstats/lang"
+ 
+ 
+ # You choose here which reports you want to see in the main page and what you
+@@ -862,7 +862,7 @@
+ # Possible values: "" or "language_codes_separated_by_space"
+ # Default: "en es fr nl es"
+ #
+-ShowFlagLinks="en fr de nl es"
++ShowFlagLinks="en fr de nl es pl"
+ 
+ 
+ # Each URL, shown in stats report views, are links you can click.
