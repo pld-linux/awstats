@@ -28,7 +28,7 @@ generates advanced web server graphic statistics. This server log
 analyzer works from command line or as a CGI and shows you all
 information your log contains, in graphical web pages. It can analyze
 a lot of web/wap/proxy servers like Apache, IIS, Weblogic, Webstar,
-Squid, ... but also mail or ftp servers.
+Squid, ... but also mail or FTP servers.
 
 This program can measure visits, unique vistors, authenticated users,
 pages, domains/countries, OS busiest times, robot visits, type of
@@ -44,7 +44,7 @@ graficzne statystyki serwera WWW. Ten analizator logów serwera
 dzia³a z linii poleceñ lub jako CGI i pokazuje wszystkie informacje
 zawarte w logu w postaci graficznych stron WWW. Mo¿e analizowaæ logi
 wielu serwerów WWW/WAP/proxy, takich jak Apache, IIS, Weblogic,
-Webstar, Squid... ale tak¿e serwerów pocztowych lub ftp.
+Webstar, Squid... ale tak¿e serwerów pocztowych lub FTP.
 
 Ten program mo¿e mierzyæ odwiedziny, odwiedzaj±cych, uwierzytelnionych
 u¿ytkowników, strony, domeny/kraje, najbardziej zajête godziny,
