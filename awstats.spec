@@ -100,5 +100,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(750,root,root) %{_sysconfdir}/cron.hourly/00awstats
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/*
-%{wwwdir}/cgi-bin/*
+%attr(750,root,root) %{wwwdir}/cgi-bin/*
 %{wwwdir}/html/*
