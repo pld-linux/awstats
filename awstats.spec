@@ -1,3 +1,4 @@
+# - SECURITY: http://securitytracker.com/alerts/2004/Aug/1010993.html
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
