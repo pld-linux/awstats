@@ -5,19 +5,17 @@ Name:		awstats
 Version:	5.4
 Release:	1
 License:	GPL
-Group:		Applications/Internet
-######		Unknown group!
-Source0:	http://prdownloads.sourceforge.net/awstats/%{name}-%{version}.tgz
+Group:		Applications/Networking
+Source0:	http://dl.sourceforge.net/awstats/%{name}-%{version}.tgz
 Source1:	%{name}-cron
 Patch0:		%{name}_conf.patch
-URL:		http://awstats.sourceforge.net
+URL:		http://awstats.sourceforge.net/
 Requires:	perl
 Requires:	perl-GeoIP
 Requires:	perl-Time-HiRes
 Requires:	perl-Storable
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
 
 %define wwwdir /home/services/httpd/html
 
