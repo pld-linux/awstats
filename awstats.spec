@@ -1,6 +1,5 @@
-
-Summary:	Advanced Web Statistics is a free powerful and featureful server log file analyzer.
-Summary(pl):	Zaawansowany Analizer logow
+Summary:	Advanced Web Statistics is a free powerful server log file analyzer
+Summary(pl):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
 Version:	5.4
 Release:	1
@@ -17,7 +16,7 @@ Requires:	perl-Storable
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define wwwdir /home/services/httpd/html
+%define		wwwdir	/home/services/httpd/html
 
 %description
 Advanced Web Statistics is a powerful and featureful tool that
@@ -33,6 +32,23 @@ files, search engines/keywords used, visits duration, HTTP errors and
 more... Statistics can be updated from a browser or your scheduler.
 The program also supports virtual servers, plugins and a lot of
 features.
+
+%description -l pl
+awstats (Advanced Web Statistics - zaawansowane statystyki WWW) to
+potê¿ne i bogate w mo¿liwo¶ci narzêdzie generuj±ce zaawansowane
+graficzne statystyki serwera WWW. Ten analizator logów serwera
+dzia³a z linii poleceñ lub jako CGI i pokazuje wszystkie informacje
+zawarte w logu w postaci graficznych stron WWW. Mo¿e analizowaæ logi
+wielu serwerów WWW/WAP/proxy, takich jak Apache, IIS, Weblogic,
+Webstar, Squid... ale tak¿e serwerów pocztowych lub ftp.
+
+Ten program mo¿e mierzyæ odwiedziny, odwiedzaj±cych, uwierzytelnionych
+u¿ytkowników, strony, domeny/kraje, najbardziej zajête godziny,
+odwiedziny robotów, rodzaje plików, u¿ywane wyszukiwarki i s³owa
+kluczowe, czasy trwania odwiedzin, b³êdy HTTP... a nawet wiêcej.
+Statystyki mog± byæ uaktualniane z przegl±darki lub schedulera.
+Program obs³uguje tak¿e serwery wirtualne, wtyczki i wiele innych
+rzeczy.
 
 %prep
 %setup -q
