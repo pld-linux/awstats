@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # update access statistics for the web site
 
 if [ -s /var/log/httpd/access_log ] ; then
