@@ -1,5 +1,3 @@
-# TODO:
-# - move to /usr/share/%{name}
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
@@ -60,7 +58,7 @@ rzeczy.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/cron.hourly,%{_bindir}} \
+install -d $RPM_BUILD_ROOT{/etc/cron.hourly,%{_bindir}} \
 	$RPM_BUILD_ROOT%{_datadir}/awstats/{lang,lib,plugins/example} \
 	$RPM_BUILD_ROOT%{wwwdir}/{cgi-bin,html/icon/{browser,clock,cpu,flags,os,other}}
 
@@ -80,7 +78,7 @@ install wwwroot/icon/flags/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/flags
 install wwwroot/icon/os/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/os
 install wwwroot/icon/other/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/other
 cp -a wwwroot/cgi-bin/lang/* $RPM_BUILD_ROOT%{_datadir}/awstats/lang
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/cron.hourly/00awstats
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.hourly/00awstats
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -88,9 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.TXT docs/*
-%config %{_sysconfdir}/awstats.conf
-%attr(750,root,root) %{_sysconfdir}/cron.hourly/00awstats
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats.conf
+%attr(750,root,root) /etc/cron.hourly/00awstats
 %attr(755,root,root) %{_bindir}/*
-%{_datadir}/*
+%{_datadir}/%{name}
 %attr(750,root,http) %{wwwdir}/cgi-bin/*
 %{wwwdir}/html/*
