@@ -59,37 +59,27 @@ rzeczy.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/cron.hourly
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_datadir}/awstats/lang
-install -d $RPM_BUILD_ROOT%{_datadir}/awstats/lib
-install -d $RPM_BUILD_ROOT%{_datadir}/awstats/plugins/example
-install -d $RPM_BUILD_ROOT%{wwwdir}/cgi-bin
-install -d $RPM_BUILD_ROOT%{wwwdir}/html/icon/browser
-install -d $RPM_BUILD_ROOT%{wwwdir}/html/icon/clock
-install -d $RPM_BUILD_ROOT%{wwwdir}/html/icon/cpu
-install -d $RPM_BUILD_ROOT%{wwwdir}/html/icon/flags
-install -d $RPM_BUILD_ROOT%{wwwdir}/html/icon/os
-install -d $RPM_BUILD_ROOT%{wwwdir}/html/icon/other
-#mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/awstats
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/cron.hourly,%{_bindir}} \
+	$RPM_BUILD_ROOT%{_datadir}/awstats/{lang,lib,plugins/example} \
+	$RPM_BUILD_ROOT%{wwwdir}/{cgi-bin,html/icon/{browser,clock,cpu,flags,os,other}}
 
-install -m 755 tools/logresolvemerge.pl $RPM_BUILD_ROOT%{_bindir}/logresolvemerge.pl
-install -m 755 tools/awstats_buildstaticpages.pl $RPM_BUILD_ROOT%{_bindir}/awstats_buildstaticpages.pl
-install -m 755 tools/awstats_exportlib.pl $RPM_BUILD_ROOT%{_bindir}/awstats_exportlib.pl
-install -m 755 tools/awstats_updateall.pl $RPM_BUILD_ROOT%{_bindir}/awstats_updateall.pl
-install -m 755 wwwroot/cgi-bin/awstats.pl $RPM_BUILD_ROOT%{wwwdir}/cgi-bin/awstats.pl
-install -m 755 wwwroot/cgi-bin/lib/* $RPM_BUILD_ROOT%{_datadir}/awstats/lib
-install -m 755 wwwroot/cgi-bin/plugins/*.pm $RPM_BUILD_ROOT%{_datadir}/awstats/plugins
-install -m 755 wwwroot/cgi-bin/plugins/example/* $RPM_BUILD_ROOT%{_datadir}/awstats/plugins/example
+install tools/logresolvemerge.pl $RPM_BUILD_ROOT%{_bindir}/logresolvemerge.pl
+install tools/awstats_buildstaticpages.pl $RPM_BUILD_ROOT%{_bindir}/awstats_buildstaticpages.pl
+install tools/awstats_exportlib.pl $RPM_BUILD_ROOT%{_bindir}/awstats_exportlib.pl
+install tools/awstats_updateall.pl $RPM_BUILD_ROOT%{_bindir}/awstats_updateall.pl
+install wwwroot/cgi-bin/awstats.pl $RPM_BUILD_ROOT%{wwwdir}/cgi-bin/awstats.pl
+install wwwroot/cgi-bin/lib/* $RPM_BUILD_ROOT%{_datadir}/awstats/lib
+install wwwroot/cgi-bin/plugins/*.pm $RPM_BUILD_ROOT%{_datadir}/awstats/plugins
+install wwwroot/cgi-bin/plugins/example/* $RPM_BUILD_ROOT%{_datadir}/awstats/plugins/example
 install wwwroot/cgi-bin/awstats.model.conf $RPM_BUILD_ROOT%{_sysconfdir}/awstats.conf
-install -m 444 wwwroot/icon/browser/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/browser
-install -m 444 wwwroot/icon/clock/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/clock
-install -m 444 wwwroot/icon/cpu/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/cpu
-install -m 444 wwwroot/icon/flags/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/flags
-install -m 444 wwwroot/icon/os/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/os
-install -m 444 wwwroot/icon/other/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/other
+install wwwroot/icon/browser/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/browser
+install wwwroot/icon/clock/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/clock
+install wwwroot/icon/cpu/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/cpu
+install wwwroot/icon/flags/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/flags
+install wwwroot/icon/os/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/os
+install wwwroot/icon/other/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/other
 cp -a wwwroot/cgi-bin/lang/* $RPM_BUILD_ROOT%{_datadir}/awstats/lang
-install -m 755 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/cron.hourly/00awstats
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/cron.hourly/00awstats
 
 %clean
 rm -rf $RPM_BUILD_ROOT
