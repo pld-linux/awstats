@@ -2,12 +2,12 @@
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
-Version:	5.7
+Version:	5.9
 Release:	0.1
 License:	GPL
 Group:		Applications/Networking
 Source0:	http://dl.sourceforge.net/awstats/%{name}-%{version}.tgz
-# Source0-md5:	4f4bfc1b362d0f031a27ecd9ecca571c
+# Source0-md5:	be251e7506df16642b367789f5078ad9
 Source1:	%{name}-cron
 Patch0:		%{name}_conf.patch
 URL:		http://awstats.sourceforge.net/
