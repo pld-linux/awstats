@@ -60,7 +60,7 @@ rzeczy.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/cron.hourly,%{_bindir}} \
 	$RPM_BUILD_ROOT%{_datadir}/awstats/{lang,lib,plugins/example} \
-	$RPM_BUILD_ROOT%{wwwdir}/{cgi-bin,html/icon/{browser,clock,cpu,flags,os,other}}
+	$RPM_BUILD_ROOT%{wwwdir}/{cgi-bin,html/icon/{browser,clock,cpu,flags,mime,os,other}}
 
 install tools/logresolvemerge.pl $RPM_BUILD_ROOT%{_bindir}/logresolvemerge.pl
 install tools/awstats_buildstaticpages.pl $RPM_BUILD_ROOT%{_bindir}/awstats_buildstaticpages.pl
@@ -75,6 +75,7 @@ install wwwroot/icon/browser/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/browser
 install wwwroot/icon/clock/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/clock
 install wwwroot/icon/cpu/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/cpu
 install wwwroot/icon/flags/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/flags
+install wwwroot/icon/mime/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/mime
 install wwwroot/icon/os/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/os
 install wwwroot/icon/other/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/other
 cp -a wwwroot/cgi-bin/lang/* $RPM_BUILD_ROOT%{_datadir}/awstats/lang
