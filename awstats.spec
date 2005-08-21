@@ -1,15 +1,24 @@
+#
+# TODO:
+#	- think about some trigger to upgrade from 6.5-1 and older 
+#         (I suggest just to forget about those broken version,
+#          unfortunately they have already landed in Ac)
+#
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
 Version:	6.5
-Release:	1
+Release:	1.5
 License:	GPL
 Group:		Applications/Networking
 Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tgz
 # Source0-md5:	8a4a5f1ad25c45c324182ba369893a5a
-Source1:	%{name}-cron
+Source1:	%{name}.crontab
+Source2:	%{name}-httpd.conf
+Source3:	%{name}.conf
 Patch0:		%{name}_conf.patch
+Patch1:		%{name}-created_dir_mode.patch
 URL:		http://awstats.sourceforge.net/
 BuildRequires:	rpm-perlprov
 Requires:	perl-Geo-IP
@@ -17,8 +26,6 @@ Requires:	perl-Time-HiRes
 Requires:	perl-Storable
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		wwwdir	/home/services/httpd
 
 %description
 Advanced Web Statistics is a powerful and featureful tool that
@@ -38,11 +45,11 @@ features.
 %description -l pl
 awstats (Advanced Web Statistics - zaawansowane statystyki WWW) to
 potê¿ne i bogate w mo¿liwo¶ci narzêdzie generuj±ce zaawansowane
-graficzne statystyki serwera WWW. Ten analizator logów serwera
-dzia³a z linii poleceñ lub jako CGI i pokazuje wszystkie informacje
-zawarte w logu w postaci graficznych stron WWW. Mo¿e analizowaæ logi
-wielu serwerów WWW/WAP/proxy, takich jak Apache, IIS, Weblogic,
-Webstar, Squid... ale tak¿e serwerów pocztowych lub FTP.
+graficzne statystyki serwera WWW. Ten analizator logów serwera dzia³a
+z linii poleceñ lub jako CGI i pokazuje wszystkie informacje zawarte w
+logu w postaci graficznych stron WWW. Mo¿e analizowaæ logi wielu
+serwerów WWW/WAP/proxy, takich jak Apache, IIS, Weblogic, Webstar,
+Squid... ale tak¿e serwerów pocztowych lub FTP.
 
 Ten program mo¿e mierzyæ odwiedziny, odwiedzaj±cych, uwierzytelnionych
 u¿ytkowników, strony, domeny/kraje, najbardziej zajête godziny,
@@ -54,42 +61,72 @@ rzeczy.
 
 %prep
 %setup -q
-%patch -p0
+%patch0 -p1
+%patch1 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/cron.hourly,%{_bindir}} \
-	$RPM_BUILD_ROOT%{_datadir}/awstats/{lang,lib,plugins/example} \
-	$RPM_BUILD_ROOT%{wwwdir}/{cgi-bin,html/icon/{browser,clock,cpu,flags,mime,os,other}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{httpd,cron.d},%{_sysconfdir}/awstats,%{_bindir}} \
+	$RPM_BUILD_ROOT{%{_datadir}/awstats,/var/lib/awstats}
 
-install tools/logresolvemerge.pl $RPM_BUILD_ROOT%{_bindir}/logresolvemerge.pl
-install tools/awstats_buildstaticpages.pl $RPM_BUILD_ROOT%{_bindir}/awstats_buildstaticpages.pl
-install tools/awstats_exportlib.pl $RPM_BUILD_ROOT%{_bindir}/awstats_exportlib.pl
-install tools/awstats_updateall.pl $RPM_BUILD_ROOT%{_bindir}/awstats_updateall.pl
-install wwwroot/cgi-bin/awstats.pl $RPM_BUILD_ROOT%{wwwdir}/cgi-bin/awstats.pl
-install wwwroot/cgi-bin/lib/* $RPM_BUILD_ROOT%{_datadir}/awstats/lib
-install wwwroot/cgi-bin/plugins/*.pm $RPM_BUILD_ROOT%{_datadir}/awstats/plugins
-install wwwroot/cgi-bin/plugins/example/* $RPM_BUILD_ROOT%{_datadir}/awstats/plugins/example
-install wwwroot/cgi-bin/awstats.model.conf $RPM_BUILD_ROOT%{_sysconfdir}/awstats.conf
-install wwwroot/icon/browser/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/browser
-install wwwroot/icon/clock/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/clock
-install wwwroot/icon/cpu/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/cpu
-install wwwroot/icon/flags/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/flags
-install wwwroot/icon/mime/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/mime
-install wwwroot/icon/os/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/os
-install wwwroot/icon/other/* $RPM_BUILD_ROOT%{wwwdir}/html/icon/other
-cp -a wwwroot/cgi-bin/lang/* $RPM_BUILD_ROOT%{_datadir}/awstats/lang
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.hourly/00awstats
+install tools/awstats_* $RPM_BUILD_ROOT%{_bindir}
+install tools/{logresolvemerge,maillogconvert,urlaliasbuilder}.pl $RPM_BUILD_ROOT%{_bindir}
+cp -r wwwroot $RPM_BUILD_ROOT%{_datadir}/awstats
+mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/awstats.model.conf $RPM_BUILD_ROOT%{_sysconfdir}/awstats
+mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/{lang,lib,plugins} $RPM_BUILD_ROOT%{_datadir}/%{name}
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.d/awstats
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/%{name}.conf
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/%{name}.conf
+ln -s %{_datadir}/awstats/wwwroot/cgi-bin/awstats.pl $RPM_BUILD_ROOT%{_bindir}
+
+%post
+if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*/%{name}.conf" /etc/httpd/httpd.conf; then
+	echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
+	if [ -f /var/lock/subsys/httpd ]; then
+		/etc/rc.d/init.d/httpd restart 1>&2
+	fi
+elif [ -d /etc/httpd/httpd.conf ]; then
+	ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
+	if [ -f /var/lock/subsys/httpd ]; then
+		/etc/rc.d/init.d/httpd restart 1>&2
+	fi
+fi
+
+%preun
+if [ "$1" = "0" ]; then
+	umask 027
+	if [ -d /etc/httpd/httpd.conf ]; then
+		rm -f /etc/httpd/httpd.conf/99_%{name}.conf
+	else
+		grep -v "^Include.*%{name}.conf" /etc/httpd/httpd.conf > \
+			/etc/httpd/httpd.conf.tmp
+		mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
+	fi
+	if [ -f /var/lock/subsys/httpd ]; then
+		/etc/rc.d/init.d/httpd restart 1>&2
+	fi
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.TXT docs/*
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats.conf
-%attr(750,root,root) /etc/cron.hourly/00awstats
+%doc README.TXT docs/* tools/webmin tools/xslt
+%dir %{_sysconfdir}/awstats
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats/*.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd/%{name}.conf
+%attr(640,root,root) /etc/cron.d/awstats
 %attr(755,root,root) %{_bindir}/*
-%{_datadir}/%{name}
-%attr(750,root,http) %{wwwdir}/cgi-bin/*
-%{wwwdir}/html/*
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/lang
+%{_datadir}/%{name}/lib
+%{_datadir}/%{name}/plugins
+%dir %{_datadir}/%{name}/wwwroot
+%dir %{_datadir}/%{name}/wwwroot/cgi-bin
+%attr(755,root,root) %{_datadir}/%{name}/wwwroot/cgi-bin/*
+%{_datadir}/%{name}/wwwroot/classes
+%{_datadir}/%{name}/wwwroot/css
+%{_datadir}/%{name}/wwwroot/icon
+%{_datadir}/%{name}/wwwroot/js
+%attr(775,root,stats) /var/lib/%{name}
