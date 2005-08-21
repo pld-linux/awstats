@@ -1,6 +1,79 @@
---- wwwroot/cgi-bin/awstats.model.conf~	Fri May 30 13:55:05 2003
-+++ wwwroot/cgi-bin/awstats.model.conf	Fri May 30 13:58:36 2003
-@@ -748,7 +748,7 @@
+diff -dur -x '*~' awstats-6.5.orig/wwwroot/cgi-bin/awstats.model.conf awstats-6.5/wwwroot/cgi-bin/awstats.model.conf
+--- awstats-6.5.orig/wwwroot/cgi-bin/awstats.model.conf	2005-03-27 16:44:52.000000000 +0200
++++ awstats-6.5/wwwroot/cgi-bin/awstats.model.conf	2005-08-21 19:36:33.000000000 +0200
+@@ -48,7 +48,7 @@
+ # If there is several log files from load balancing servers :
+ # Example: "/pathtotools/logresolvemerge.pl *.log |"
+ #
+-LogFile="/var/log/httpd/mylog.log"
++#LogFile="/var/log/httpd/mylog.log"
+ 
+ 
+ # Enter the log file type you want to analyze.
+@@ -118,7 +118,7 @@
+ # Example for IIS:
+ # LogFormat = 2
+ #
+-LogFormat=1
++LogFormat=4
+ 
+ 
+ # If your log field's separator is not a space, you can change this parameter.
+@@ -149,7 +149,7 @@
+ # Example: "ftp.domain.com"
+ # Example: "domain.com"
+ #
+-SiteDomain=""
++#SiteDomain=""
+ 
+ 
+ # Enter here all other possible domain names, addresses or virtual host
+@@ -164,7 +164,7 @@
+ # Note: You can also use @/mypath/myfile if list of aliases are in a file.
+ # Example: "www.myserver.com localhost 127.0.0.1 REGEX[mydomain\.(net|org)$]"
+ #
+-HostAliases="localhost 127.0.0.1 REGEX[myserver\.com$]"
++#HostAliases="localhost 127.0.0.1 REGEX[myserver\.com$]"
+ 
+ 
+ # If you want to have hosts reported by name instead of ip address, AWStats
+@@ -199,7 +199,7 @@
+ # Example: "C:/awstats_data_dir"
+ # Default: "."          (means same directory as awstats.pl)
+ #
+-DirData="."
++DirData="/var/lib/awstats"
+ 
+ 
+ # Relative or absolute web URL of your awstats cgi-bin directory.
+@@ -208,7 +208,7 @@
+ # Example: "/awstats"
+ # Default: "/cgi-bin"   (means awstats.pl is in "/yourwwwroot/cgi-bin")
+ #
+-DirCgi="/cgi-bin"
++DirCgi="/awstats"
+ 
+ 
+ # Relative or absolute web URL of your awstats icon directory.
+@@ -218,7 +218,7 @@
+ # Example: "../icon"
+ # Default: "/icon" (means you must copy icon directories in "/mywwwroot/icon")
+ #
+-DirIcons="/icon"
++DirIcons="/awstatsicon"
+ 
+ 
+ # When this parameter is set to 1, AWStats add a button on report page to
+@@ -357,7 +357,7 @@
+ # Possible values: 0 or 1
+ # Default: 0
+ #
+-CreateDirDataIfNotExists=0
++CreateDirDataIfNotExists=1
+ 
+ 
+ # You can choose in which format the Awstats history database is saved.
+@@ -876,7 +876,7 @@
  # Example: "/usr/share/awstats/lang"
  # Default: "./lang" (means lang directory is in same location than awstats.pl)
  #
@@ -8,4 +81,13 @@
 +DirLang="/usr/share/awstats/lang"
  
  
- # You choose here which reports you want to see in the main page and what you
+ # Show menu header with reports' links
+@@ -1186,7 +1186,7 @@
+ # Example: "/css/awstats_bw.css"
+ # Default: ""
+ #
+-StyleSheet=""
++StyleSheet="/awstatscss/awstats_default.css"
+ 
+ 
+ # Those colors parameters can be used (if StyleSheet parameter is not used)
