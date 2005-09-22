@@ -1,1 +1,1 @@
-05 * * * * stats umask 002; /usr/bin/awstats_updateall.pl now -config-dir=/etc/awstats -awstatsprog=/usr/bin/awstats.pl > /dev/null
+05 * * * * stats umask 002; /usr/bin/awstats_updateall.pl now -configdir=/etc/awstats -awstatsprog=/usr/bin/awstats.pl > /dev/null

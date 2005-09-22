@@ -60,7 +60,7 @@ diff -dur -x '*~' awstats-6.5.orig/wwwroot/cgi-bin/awstats.model.conf awstats-6.
  # Default: "/icon" (means you must copy icon directories in "/mywwwroot/icon")
  #
 -DirIcons="/icon"
-+DirIcons="/awstatsicon"
++DirIcons="/awstatsicons"
  
  
  # When this parameter is set to 1, AWStats add a button on report page to
