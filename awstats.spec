@@ -1,15 +1,16 @@
 #
 # TODO:
-#	- think about some trigger to upgrade from 6.5-1 and older 
+# - think about some trigger to upgrade from 6.5-1 and older
 #         (I suggest just to forget about those broken version,
 #          unfortunately they have already landed in Ac)
+# - apache1 config
 #
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
 Version:	6.5
-Release:	1.20
+Release:	2
 License:	GPL v2
 Group:		Applications/Networking
 Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tgz
