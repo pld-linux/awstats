@@ -10,7 +10,7 @@ Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
 Version:	6.5
-Release:	2
+Release:	2.2
 License:	GPL v2
 Group:		Applications/Networking
 Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tgz
@@ -22,13 +22,18 @@ Patch0:		%{name}_conf.patch
 Patch1:		%{name}-created_dir_mode.patch
 URL:		http://awstats.sourceforge.net/
 BuildRequires:	rpm-perlprov
-BuildRequires:	rpmbuild(macros) >= 1.221
+BuildRequires:	rpmbuild(macros) >= 1.264
 Requires(triggerpostun):	sed >= 4.0
 Requires:	perl-Geo-IP
 Requires:	perl-Time-HiRes
 Requires:	perl-Storable
+Requires:	webapps
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_webapps	/etc/webapps
+%define		_webapp		%{name}
+%define		_sysconfdir	%{_webapps}/%{_webapp}
 
 %description
 Advanced Web Statistics is a powerful and featureful tool that
@@ -69,60 +74,71 @@ rzeczy.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{httpd,cron.d},%{_sysconfdir}/awstats,%{_bindir}} \
+install -d $RPM_BUILD_ROOT{/etc/cron.d,%{_sysconfdir},%{_bindir}} \
 	$RPM_BUILD_ROOT{%{_datadir}/awstats,/var/lib/awstats}
 
 install tools/awstats_* $RPM_BUILD_ROOT%{_bindir}
 install tools/{logresolvemerge,maillogconvert,urlaliasbuilder}.pl $RPM_BUILD_ROOT%{_bindir}
 cp -r wwwroot $RPM_BUILD_ROOT%{_datadir}/awstats
-mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/awstats.model.conf $RPM_BUILD_ROOT%{_sysconfdir}/awstats
+mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/awstats.model.conf $RPM_BUILD_ROOT%{_sysconfdir}
 mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/{lang,lib,plugins} $RPM_BUILD_ROOT%{_datadir}/%{name}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.d/awstats
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/apache.conf
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/%{name}.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.conf
 ln -s %{_datadir}/awstats/wwwroot/cgi-bin/awstats.pl $RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %triggerin -- apache >= 2.0.0
-%apache_config_install -v 2 -c %{_sysconfdir}/awstats/apache.conf
+%webapp_register httpd %{_webapp}
 
 %triggerun -- apache >= 2.0.0
-%apache_config_uninstall -v 2
+%webapp_unregister httpd %{_webapp}
 
-%triggerpostun -- %{name} < 6.5-1.10
-# migrate from old config location (only apache2, as there was no apache1 support)
-if [ -f /etc/httpd/%{name}.conf.rpmsave ]; then
-	cp -f %{_sysconfdir}/apache-%{name}.conf{,.rpmnew}
-	mv -f /etc/httpd/%{name}.conf.rpmsave %{_sysconfdir}/awstats/apache.conf
-	if [ -f /var/lock/subsys/httpd ]; then
-		/etc/rc.d/init.d/httpd reload 1>&2
+%triggerpostun -- %{name} < 6.5-2.1
+# rescue app configs.
+for i in awstats.conf awstats.model.conf; do
+	if [ -f /etc/%{name}/$i.rpmsave ]; then
+		mv -f %{_sysconfdir}/$i{,.rpmnew}
+		mv -f /etc/%{name}/$i.rpmsave %{_sysconfdir}/$i
 	fi
-fi
+done
 
-# nuke very-old config location
-if [ ! -d /etc/httpd/httpd.conf ]; then
+# nuke very-old config location (this mostly for Ra)
+if [ -f /etc/httpd/httpd.conf ]; then
 	sed -i -e "/^Include.*%{name}.conf/d" /etc/httpd/httpd.conf
-	if [ -f /var/lock/subsys/httpd ]; then
-		/etc/rc.d/init.d/httpd reload 1>&2
-	fi
 fi
 
-# apache2
-if [ -d /etc/httpd/httpd.conf ]; then
-	ln -sf %{_sysconfdir}/awstats/apache.conf /etc/httpd/httpd.conf/99_%{name}.conf
-	if [ -f /var/lock/subsys/httpd ]; then
-		/etc/rc.d/init.d/httpd reload 1>&2
+# migrate from httpd (apache2) config dir
+if [ -f /etc/httpd/%{name}.conf.rpmsave ]; then
+	cp -f %{_sysconfdir}/httpd.conf{,.rpmnew}
+	mv -f /etc/httpd/%{name}.conf.rpmsave %{_sysconfdir}/httpd.conf
+fi
+
+# migrate from apache-config macros
+if [ -f /etc/%{name}/apache.conf.rpmsave ]; then
+	if [ -d /etc/httpd/webapps.d ]; then
+		cp -f %{_sysconfdir}/httpd.conf{,.rpmnew}
+		cp -f /etc/%{name}/apache.conf.rpmsave %{_sysconfdir}/httpd.conf
 	fi
+	rm -f /etc/%{name}/apache.conf.rpmsave
+fi
+
+rm -f /etc/httpd/httpd.conf/99_%{name}.conf
+/usr/sbin/webapp register httpd %{_webapp}
+
+if [ -f /var/lock/subsys/httpd ]; then
+	/etc/rc.d/init.d/httpd reload 1>&2
 fi
 
 %files
 %defattr(644,root,root,755)
 %doc README.TXT docs/* tools/webmin tools/xslt
-%dir %{_sysconfdir}/awstats
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats/awstats*.conf
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats/apache.conf
+%dir %attr(750,root,http) %{_sysconfdir}
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats*.conf
+
 %attr(640,root,root) /etc/cron.d/awstats
 %attr(755,root,root) %{_bindir}/*
 %dir %{_datadir}/%{name}
