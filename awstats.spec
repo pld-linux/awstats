@@ -25,8 +25,8 @@ BuildRequires:	rpm-perlprov
 BuildRequires:	rpmbuild(macros) >= 1.264
 Requires(triggerpostun):	sed >= 4.0
 Requires:	perl-Geo-IP
-Requires:	perl-Time-HiRes
 Requires:	perl-Storable
+Requires:	perl-Time-HiRes
 Requires:	webapps
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
