@@ -90,10 +90,10 @@ ln -s %{_datadir}/awstats/wwwroot/cgi-bin/awstats.pl $RPM_BUILD_ROOT%{_bindir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%triggerin -- apache >= 2.0.0
+%triggerin -- apache < 2.2.0, apache-base
 %webapp_register httpd %{_webapp}
 
-%triggerun -- apache >= 2.0.0
+%triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
 
 %triggerpostun -- %{name} < 6.5-2.1
