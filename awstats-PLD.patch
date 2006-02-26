@@ -1,0 +1,103 @@
+diff -Naur awstats-6.5.orig/tools/awstats_buildstaticpages.pl awstats-6.5/tools/awstats_buildstaticpages.pl
+--- awstats-6.5.orig/tools/awstats_buildstaticpages.pl	2005-03-20 19:11:05.000000000 +0100
++++ awstats-6.5/tools/awstats_buildstaticpages.pl	2006-02-26 16:03:40.162984464 +0100
+@@ -133,7 +133,7 @@
+ 	my @PossibleConfigDir=();
+ 
+ 	if ($configdir) { @PossibleConfigDir=("$configdir"); }
+-	else { @PossibleConfigDir=("$AwstatsDir","$DIR","/etc/awstats","/usr/local/etc/awstats","/etc","/etc/opt/awstats"); }
++	else { @PossibleConfigDir=("$AwstatsDir","$DIR","/etc/webapps/awstats","/etc/awstats","/usr/local/etc/awstats","/etc","/etc/opt/awstats"); }
+ 
+ 	# Open config file
+ 	$FileConfig=$FileSuffix='';
+@@ -293,8 +293,8 @@
+ # Check if AWSTATS prog is found
+ my $AwstatsFound=0;
+ if (-s "$Awstats") { $AwstatsFound=1; }
+-elsif (-s "/usr/local/awstats/wwwroot/cgi-bin/awstats.pl") {
+-	$Awstats="/usr/local/awstats/wwwroot/cgi-bin/awstats.pl";
++elsif (-s "/usr/share/awstats/wwwroot/cgi-bin/awstats.pl") {
++	$Awstats="/usr/share/awstats/wwwroot/cgi-bin/awstats.pl";
+ 	$AwstatsFound=1;
+ }
+ if (! $AwstatsFound) {
+diff -Naur awstats-6.5.orig/tools/awstats_configure.pl awstats-6.5/tools/awstats_configure.pl
+--- awstats-6.5.orig/tools/awstats_configure.pl	2005-03-27 16:50:22.000000000 +0200
++++ awstats-6.5/tools/awstats_configure.pl	2006-02-26 16:06:53.265628400 +0100
+@@ -29,11 +29,11 @@
+ $AWSTATS_DIRDATA_PATH
+ /;
+ $AWSTATS_PATH='';
+-$AWSTATS_ICON_PATH='/usr/local/awstats/wwwroot/icon';
+-$AWSTATS_CSS_PATH='/usr/local/awstats/wwwroot/css';
+-$AWSTATS_CLASSES_PATH='/usr/local/awstats/wwwroot/classes';
+-$AWSTATS_CGI_PATH='/usr/local/awstats/wwwroot/cgi-bin';
+-$AWSTATS_MODEL_CONFIG='/etc/awstats/awstats.model.conf';		# Used only when configure ran on linux
++$AWSTATS_ICON_PATH='/usr/share/awstats/wwwroot/icon';
++$AWSTATS_CSS_PATH='/usr/share/awstats/wwwroot/css';
++$AWSTATS_CLASSES_PATH='/usr/share/awstats/wwwroot/classes';
++$AWSTATS_CGI_PATH='/usr/share/awstats/wwwroot/cgi-bin';
++$AWSTATS_MODEL_CONFIG='/etc/webapps/awstats/awstats.model.conf';		# Used only when configure ran on linux
+ $AWSTATS_DIRDATA_PATH='/var/lib/awstats';						# Used only when configure ran on linux
+ 
+ 
+@@ -604,11 +604,11 @@
+ 	if ($OS eq 'linux') 		{
+ 		print "\n-----> Define config file path\n";
+ 		print "In which directory do you plan to store your config file(s) ?\n";
+-		print "Default: /etc/awstats\n";
++		print "Default: /etc/webapps/awstats\n";
+ 		my $bidon='';
+ 		print "Directory path to store config file(s) (Enter for default):\n> ";
+ 		$bidon=<STDIN>; chomp $bidon;
+-		if (! $bidon) { $bidon = "/etc/awstats"; }
++		if (! $bidon) { $bidon = "/etc/webapps/awstats"; }
+ 		my $configdir=$bidon;
+ 		if (! -d $configdir) {
+ 			# Create the directory for config files
+diff -Naur awstats-6.5.orig/tools/awstats_updateall.pl awstats-6.5/tools/awstats_updateall.pl
+--- awstats-6.5.orig/tools/awstats_updateall.pl	2004-06-07 14:27:26.000000000 +0200
++++ awstats-6.5/tools/awstats_updateall.pl	2006-02-26 16:02:19.621228672 +0100
+@@ -13,7 +13,7 @@
+ my $VERSION="1.0 (build $REVISION)";
+ 
+ # Default value of DIRCONFIG
+-my $DIRCONFIG = "/etc/awstats";
++my $DIRCONFIG = "/etc/webapps/awstats";
+ 
+ my $Debug=0;
+ 
+@@ -121,8 +121,8 @@
+ 	# Check if AWSTATS prog is found
+ 	my $AwstatsFound=0;
+ 	if (-s "$Awstats") { $AwstatsFound=1; }
+-	elsif (-s "/usr/local/awstats/wwwroot/cgi-bin/awstats.pl") {
+-		$Awstats="/usr/local/awstats/wwwroot/cgi-bin/awstats.pl";
++	elsif (-s "/usr/share/awstats/wwwroot/cgi-bin/awstats.pl") {
++		$Awstats="/usr/share/awstats/wwwroot/cgi-bin/awstats.pl";
+ 		$AwstatsFound=1;
+ 	}
+ 	if (! $AwstatsFound) {
+diff -Naur awstats-6.5.orig/wwwroot/cgi-bin/awstats.pl awstats-6.5/wwwroot/cgi-bin/awstats.pl
+--- awstats-6.5.orig/wwwroot/cgi-bin/awstats.pl	2006-02-26 15:57:27.391654000 +0100
++++ awstats-6.5/wwwroot/cgi-bin/awstats.pl	2006-02-26 16:00:29.892909912 +0100
+@@ -1091,7 +1091,7 @@
+ 	my @PossibleConfigDir=();
+ 
+ 	if ($configdir) { @PossibleConfigDir=("$configdir"); }
+-	else { @PossibleConfigDir=("$DIR","/etc/awstats","/usr/local/etc/awstats","/etc","/etc/opt/awstats"); }
++	else { @PossibleConfigDir=("$DIR","/etc/webapps/awstats","/etc/awstats","/usr/local/etc/awstats","/etc","/etc/opt/awstats"); }
+ 
+ 	# Open config file
+ 	$FileConfig=$FileSuffix='';
+@@ -5567,8 +5567,8 @@
+ 	print "  First, $PROG tries to read $PROG.virtualhostname.conf as the config file.\n";
+ 	print "  If not found, $PROG tries to read $PROG.conf\n";
+ 	print "  Note 1: Config files ($PROG.virtualhostname.conf or $PROG.conf) must be\n";
+-	print "   in /etc/awstats, /usr/local/etc/awstats, /etc or same directory than\n";
+-	print "   awstats.pl script file.\n";
++	print "   in /etc/webapps/awstasts, /etc/awstats, /usr/local/etc/awstats, /etc\n";
++	print "   or same directory than awstats.pl script file.\n";
+ 	print "  Note 2: If AWSTATS_FORCE_CONFIG environment variable is defined, AWStats will\n";
+ 	print "   use it as the \"config\" value, whatever is the value on command line or URL.\n";
+ 	print "   See AWStats documentation for all setup instrutions.\n";
