@@ -129,10 +129,7 @@ fi
 
 rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 /usr/sbin/webapp register httpd %{_webapp}
-
-if [ -f /var/lock/subsys/httpd ]; then
-	/etc/rc.d/init.d/httpd reload 1>&2
-fi
+%service -q httpd reload
 
 %files
 %defattr(644,root,root,755)
