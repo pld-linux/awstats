@@ -100,6 +100,12 @@ rm -rf $RPM_BUILD_ROOT
 %triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
 
+%triggerin -- lighttpd
+%webapp_register lighttpd %{_webapp}
+
+%triggerun -- lighttpd
+%webapp_unregister lighttpd %{_webapp}
+
 %triggerpostun -- %{name} < 6.5-2.1
 # rescue app configs.
 for i in awstats.conf awstats.model.conf; do
@@ -138,6 +144,7 @@ rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 %doc README.TXT docs/* tools/webmin tools/xslt
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats*.conf
 
 %attr(640,root,root) /etc/cron.d/awstats
