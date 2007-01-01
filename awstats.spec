@@ -18,6 +18,7 @@ Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tgz
 Source1:	%{name}.crontab
 Source2:	%{name}-httpd.conf
 Source3:	%{name}.conf
+Source4:	%{name}-lighttpd.conf
 Patch0:		%{name}_conf.patch
 Patch1:		%{name}-created_dir_mode.patch
 Patch2:		%{name}-PLD.patch
@@ -87,6 +88,7 @@ mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/{lang,lib,plugins} $RPM_BU
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.d/awstats
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.conf
+install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 ln -s %{_datadir}/awstats/wwwroot/cgi-bin/awstats.pl $RPM_BUILD_ROOT%{_bindir}
 
 %clean
