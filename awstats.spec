@@ -4,17 +4,26 @@
 #   unfortunately they have already landed in Ac)
 # - apache1 config
 # - security CVE-2006-1945, CVE-2006-2237: http://security.gentoo.org/glsa/glsa-200606-06.xml
+# 
+# NOTES:
+# - /etc/cron.d/awstats contents is overwritten during upgrade - maybe this
+#   should be market as %config(noreplace)
+# - Cron <stats@asus> umask 002; /usr/bin/awstats_updateall.pl now -configdir=/etc/webapps/awstats -awstatsprog=/usr/bin/awstats.pl
+#   Error: Can't scan directory /etc/webapps/awstats.
+#   called from /etc/cron.d/awstats uses `stats' user which has no rights for
+#   reading awstats configuration from /etc/webapps/awstats directory - what
+#   does prevent from making this directory and config files worldreadable?
 #
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
-Version:	6.5
-Release:	5
+Version:	6.6
+Release:	0.3
 License:	GPL v2
 Group:		Applications/Networking
-Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tgz
-# Source0-md5:	8a4a5f1ad25c45c324182ba369893a5a
+Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tar.gz
+# Source0-md5:	38e393edb530d409fdf7f79127a7548e
 Source1:	%{name}.crontab
 Source2:	%{name}-httpd.conf
 Source3:	%{name}.conf
@@ -148,14 +157,15 @@ rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats*.conf
 
 %attr(640,root,root) /etc/cron.d/awstats
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/*.pl
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/lang
 %{_datadir}/%{name}/lib
 %{_datadir}/%{name}/plugins
 %dir %{_datadir}/%{name}/wwwroot
 %dir %{_datadir}/%{name}/wwwroot/cgi-bin
-%attr(755,root,root) %{_datadir}/%{name}/wwwroot/cgi-bin/*
+%attr(755,root,root) %{_datadir}/%{name}/wwwroot/cgi-bin/awredir.pl
+%attr(755,root,root) %{_datadir}/%{name}/wwwroot/cgi-bin/awstats.pl
 %{_datadir}/%{name}/wwwroot/classes
 %{_datadir}/%{name}/wwwroot/css
 %{_datadir}/%{name}/wwwroot/icon
