@@ -4,22 +4,13 @@
 #   unfortunately they have already landed in Ac)
 # - apache1 config
 # - security CVE-2006-1945, CVE-2006-2237: http://security.gentoo.org/glsa/glsa-200606-06.xml
-# 
-# NOTES:
-# - /etc/cron.d/awstats contents is overwritten during upgrade - maybe this
-#   should be market as %config(noreplace)
-# - Cron <stats@asus> umask 002; /usr/bin/awstats_updateall.pl now -configdir=/etc/webapps/awstats -awstatsprog=/usr/bin/awstats.pl
-#   Error: Can't scan directory /etc/webapps/awstats.
-#   called from /etc/cron.d/awstats uses `stats' user which has no rights for
-#   reading awstats configuration from /etc/webapps/awstats directory - what
-#   does prevent from making this directory and config files worldreadable?
-#
+
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
 Version:	6.6
-Release:	0.3
+Release:	0.4
 License:	GPL v2
 Group:		Applications/Networking
 Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tar.gz
@@ -154,9 +145,9 @@ rm -f /etc/httpd/httpd.conf/99_%{name}.conf
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats*.conf
+%attr(644,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/awstats*.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/cron.d/awstats
 
-%attr(640,root,root) /etc/cron.d/awstats
 %attr(755,root,root) %{_bindir}/*.pl
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/lang
