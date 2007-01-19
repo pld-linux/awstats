@@ -4,7 +4,6 @@
 #   unfortunately they have already landed in Ac)
 # - apache1 config
 # - security CVE-2006-1945, CVE-2006-2237: http://security.gentoo.org/glsa/glsa-200606-06.xml
-
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl):	Zaawansowany program do analizowania logów serwera
