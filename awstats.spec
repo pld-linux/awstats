@@ -6,7 +6,7 @@
 # - security CVE-2006-1945, CVE-2006-2237: http://security.gentoo.org/glsa/glsa-200606-06.xml
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
-Summary(pl.UTF-8):   Zaawansowany program do analizowania logów serwera
+Summary(pl.UTF-8):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
 Version:	6.6
 Release:	0.4
