@@ -6,7 +6,7 @@
 # - security CVE-2006-1945, CVE-2006-2237: http://security.gentoo.org/glsa/glsa-200606-06.xml
 %include	/usr/lib/rpm/macros.perl
 Summary:	Advanced Web Statistics is a free powerful server log file analyzer
-Summary(pl):	Zaawansowany program do analizowania logów serwera
+Summary(pl.UTF-8):   Zaawansowany program do analizowania logÃ³w serwera
 Name:		awstats
 Version:	6.6
 Release:	0.4
@@ -51,21 +51,21 @@ more... Statistics can be updated from a browser or your scheduler.
 The program also supports virtual servers, plugins and a lot of
 features.
 
-%description -l pl
+%description -l pl.UTF-8
 awstats (Advanced Web Statistics - zaawansowane statystyki WWW) to
-potê¿ne i bogate w mo¿liwo¶ci narzêdzie generuj±ce zaawansowane
-graficzne statystyki serwera WWW. Ten analizator logów serwera dzia³a
-z linii poleceñ lub jako CGI i pokazuje wszystkie informacje zawarte w
-logu w postaci graficznych stron WWW. Mo¿e analizowaæ logi wielu
-serwerów WWW/WAP/proxy, takich jak Apache, IIS, Weblogic, Webstar,
-Squid... ale tak¿e serwerów pocztowych lub FTP.
+potÄ™Å¼ne i bogate w moÅ¼liwoÅ›ci narzÄ™dzie generujÄ…ce zaawansowane
+graficzne statystyki serwera WWW. Ten analizator logÃ³w serwera dziaÅ‚a
+z linii poleceÅ„ lub jako CGI i pokazuje wszystkie informacje zawarte w
+logu w postaci graficznych stron WWW. MoÅ¼e analizowaÄ‡ logi wielu
+serwerÃ³w WWW/WAP/proxy, takich jak Apache, IIS, Weblogic, Webstar,
+Squid... ale takÅ¼e serwerÃ³w pocztowych lub FTP.
 
-Ten program mo¿e mierzyæ odwiedziny, odwiedzaj±cych, uwierzytelnionych
-u¿ytkowników, strony, domeny/kraje, najbardziej zajête godziny,
-odwiedziny robotów, rodzaje plików, u¿ywane wyszukiwarki i s³owa
-kluczowe, czasy trwania odwiedzin, b³êdy HTTP... a nawet wiêcej.
-Statystyki mog± byæ uaktualniane z przegl±darki lub schedulera.
-Program obs³uguje tak¿e serwery wirtualne, wtyczki i wiele innych
+Ten program moÅ¼e mierzyÄ‡ odwiedziny, odwiedzajÄ…cych, uwierzytelnionych
+uÅ¼ytkownikÃ³w, strony, domeny/kraje, najbardziej zajÄ™te godziny,
+odwiedziny robotÃ³w, rodzaje plikÃ³w, uÅ¼ywane wyszukiwarki i sÅ‚owa
+kluczowe, czasy trwania odwiedzin, bÅ‚Ä™dy HTTP... a nawet wiÄ™cej.
+Statystyki mogÄ… byÄ‡ uaktualniane z przeglÄ…darki lub schedulera.
+Program obsÅ‚uguje takÅ¼e serwery wirtualne, wtyczki i wiele innych
 rzeczy.
 
 %prep
