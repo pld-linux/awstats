@@ -73,26 +73,14 @@ diff -Nur b.awstats-6.6/tools/awstats_updateall.pl n.awstats-6.6/tools/awstats_u
  		$AwstatsFound=1;
  	}
  	if (! $AwstatsFound) {
-diff -Nur b.awstats-6.6/wwwroot/cgi-bin/awstats.pl n.awstats-6.6/wwwroot/cgi-bin/awstats.pl
---- b.awstats-6.6/wwwroot/cgi-bin/awstats.pl	2007-01-16 13:14:33.000000000 +0100
-+++ n.awstats-6.6/wwwroot/cgi-bin/awstats.pl	2007-01-16 13:15:15.000000000 +0100
-@@ -1143,7 +1143,7 @@
- 			@PossibleConfigDir=("$configdir");
- 		#}
+--- awstats-6.9/wwwroot/cgi-bin/awstats.pl.fix	2009-03-20 13:48:27.572771826 +0100
++++ awstats-6.9/wwwroot/cgi-bin/awstats.pl	2009-03-20 13:49:16.911789620 +0100
+@@ -1642,7 +1642,7 @@ sub Read_Config {
  	}
--	else { @PossibleConfigDir=("$DIR","/etc/awstats","/usr/local/etc/awstats","/etc","/etc/opt/awstats"); }
-+	else { @PossibleConfigDir=("$DIR","/etc/webapps/awstats","/etc/awstats","/usr/local/etc/awstats","/etc","/etc/opt/awstats"); }
- 
- 	# Open config file
- 	$FileConfig=$FileSuffix='';
-@@ -5681,8 +5681,8 @@
- 	print "  First, $PROG tries to read $PROG.virtualhostname.conf as the config file.\n";
- 	print "  If not found, $PROG tries to read $PROG.conf\n";
- 	print "  Note 1: Config files ($PROG.virtualhostname.conf or $PROG.conf) must be\n";
--	print "   in /etc/awstats, /usr/local/etc/awstats, /etc or same directory than\n";
--	print "   awstats.pl script file.\n";
-+	print "   in /etc/webapps/awstasts, /etc/awstats, /usr/local/etc/awstats, /etc\n";
-+	print "   or same directory than awstats.pl script file.\n";
- 	print "  Note 2: If AWSTATS_FORCE_CONFIG environment variable is defined, AWStats will\n";
- 	print "   use it as the \"config\" value, whatever is the value on command line or URL.\n";
- 	print "   See AWStats documentation for all setup instrutions.\n";
+ 	else {
+ 		@PossibleConfigDir = (
+-							   "$DIR",                   "/etc/awstats",
++							   "$DIR", "/etc/webapps/awstats", "/etc/awstats",
+ 							   "/usr/local/etc/awstats", "/etc",
+ 							   "/etc/opt/awstats"
+ 		);

@@ -1,12 +1,11 @@
-diff -dur -x '*~' awstats-6.5.orig1/wwwroot/cgi-bin/awstats.pl awstats-6.5/wwwroot/cgi-bin/awstats.pl
---- awstats-6.5.orig1/wwwroot/cgi-bin/awstats.pl	2005-03-20 19:11:05.000000000 +0100
-+++ awstats-6.5/wwwroot/cgi-bin/awstats.pl	2005-08-21 19:43:31.000000000 +0200
-@@ -1770,7 +1770,7 @@
- 	if (! $MigrateStats && ! -d $DirData) {
+--- awstats-6.9/wwwroot/cgi-bin/awstats.pl.fix	2009-03-20 13:53:04.308433852 +0100
++++ awstats-6.9/wwwroot/cgi-bin/awstats.pl	2009-03-20 13:53:20.211765413 +0100
+@@ -2850,7 +2850,7 @@ sub Check_Config {
+ 	if ( !$MigrateStats && !-d $DirData ) {
  		if ($CreateDirDataIfNotExists) {
- 			if ($Debug) { debug(" Make directory $DirData",2); }
--			my $mkdirok=mkdir "$DirData", 0766;
-+			my $mkdirok=mkdir "$DirData", 0755;
- 			if (! $mkdirok) { error("$PROG failed to create directory DirData (DirData=\"$DirData\", CreateDirDataIfNotExists=$CreateDirDataIfNotExists)."); }
- 		}
- 		else {
+ 			if ($Debug) { debug( " Make directory $DirData", 2 ); }
+-			my $mkdirok = mkdir "$DirData", 0766;
++			my $mkdirok = mkdir "$DirData", 0755;
+ 			if ( !$mkdirok ) {
+ 				error(          "$PROG failed to create directory DirData (DirData=\"$DirData\", CreateDirDataIfNotExists=$CreateDirDataIfNotExists)."
+ 				);
