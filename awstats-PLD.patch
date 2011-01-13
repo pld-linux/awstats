@@ -73,14 +73,13 @@ diff -Nur b.awstats-6.6/tools/awstats_updateall.pl n.awstats-6.6/tools/awstats_u
  		$AwstatsFound=1;
  	}
  	if (! $AwstatsFound) {
---- awstats-6.95/wwwroot/cgi-bin/awstats.pl.orig	2010-05-19 12:48:28.000000000 +0200
-+++ awstats-6.95/wwwroot/cgi-bin/awstats.pl	2010-05-19 13:15:39.000000000 +0200
-@@ -1733,7 +1733,7 @@ sub Read_Config {
- 	}
- 	else {
- 		@PossibleConfigDir = (
--			"$DIR",                   "/etc/awstats",
-+			"$DIR", "/etc/webapps/awstats", "/etc/awstats",
+--- awstats-7.0/wwwroot/cgi-bin/awstats.pl~	2011-01-13 13:23:54.000000000 +0200
++++ awstats-7.0/wwwroot/cgi-bin/awstats.pl	2011-01-13 14:22:50.921961909 +0200
+@@ -1712,6 +1712,7 @@
+ 	my $configdir         = shift;
+ 	my @PossibleConfigDir = (
+ 			"$DIR",
++			"/etc/webapps/awstats",
+ 			"/etc/awstats",
  			"/usr/local/etc/awstats", "/etc",
  			"/etc/opt/awstats"
- 		);
