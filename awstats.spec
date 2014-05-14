@@ -9,7 +9,7 @@ Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl.UTF-8):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
 Version:	7.1
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications/Networking
 Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tar.gz
@@ -29,6 +29,7 @@ Requires:	perl-Geo-IP
 Requires:	perl-Storable
 Requires:	perl-Time-HiRes
 Requires:	webapps
+Suggests:	crondaemon
 Conflicts:	apache-base < 2.4.0-1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -81,15 +82,15 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/cron.d,%{_sysconfdir},%{_bindir}} \
 	$RPM_BUILD_ROOT{%{_datadir}/awstats,/var/lib/awstats}
 
-install tools/awstats_* $RPM_BUILD_ROOT%{_bindir}
-install tools/{logresolvemerge,maillogconvert,urlaliasbuilder}.pl $RPM_BUILD_ROOT%{_bindir}
+install -p tools/awstats_* $RPM_BUILD_ROOT%{_bindir}
+install -p tools/{logresolvemerge,maillogconvert,urlaliasbuilder}.pl $RPM_BUILD_ROOT%{_bindir}
 cp -r wwwroot $RPM_BUILD_ROOT%{_datadir}/awstats
 mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/awstats.model.conf $RPM_BUILD_ROOT%{_sysconfdir}
 mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/{lang,lib,plugins} $RPM_BUILD_ROOT%{_datadir}/%{name}
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.d/awstats
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.conf
-install %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+cp -p %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.d/awstats
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/%{name}.conf
+cp -p %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 ln -s %{_datadir}/awstats/wwwroot/cgi-bin/awstats.pl $RPM_BUILD_ROOT%{_bindir}
 
 %clean
