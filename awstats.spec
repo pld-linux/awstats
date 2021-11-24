@@ -8,7 +8,7 @@ Summary:	Advanced Web Statistics is a free powerful server log file analyzer
 Summary(pl.UTF-8):	Zaawansowany program do analizowania logów serwera
 Name:		awstats
 Version:	7.8
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Networking
 Source0:	http://awstats.sourceforge.net/files/%{name}-%{version}.tar.gz
@@ -32,6 +32,9 @@ Suggests:	crondaemon
 Conflicts:	apache-base < 2.4.0-1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# java code is run on clients browser
+%define		_noautoreqfiles	%{_datadir}/awstats/wwwroot/classes/.*
 
 %define		_webapps	/etc/webapps
 %define		_webapp		%{name}
@@ -83,6 +86,7 @@ install -d $RPM_BUILD_ROOT{/etc/cron.d,%{_sysconfdir},%{_bindir}} \
 
 install -p tools/awstats_* $RPM_BUILD_ROOT%{_bindir}
 install -p tools/{logresolvemerge,maillogconvert,urlaliasbuilder}.pl $RPM_BUILD_ROOT%{_bindir}
+rm -rf wwwroot/classes/src
 cp -r wwwroot $RPM_BUILD_ROOT%{_datadir}/awstats
 mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/awstats.model.conf $RPM_BUILD_ROOT%{_sysconfdir}
 mv $RPM_BUILD_ROOT%{_datadir}/awstats/wwwroot/cgi-bin/{lang,lib,plugins} $RPM_BUILD_ROOT%{_datadir}/%{name}
