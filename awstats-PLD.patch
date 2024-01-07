@@ -1,7 +1,7 @@
-diff -Nur b.awstats-6.6/tools/awstats_buildstaticpages.pl n.awstats-6.6/tools/awstats_buildstaticpages.pl
---- b.awstats-6.6/tools/awstats_buildstaticpages.pl	2006-02-08 23:26:14.000000000 +0100
-+++ n.awstats-6.6/tools/awstats_buildstaticpages.pl	2007-01-16 13:15:15.000000000 +0100
-@@ -133,7 +133,7 @@
+diff -ur awstats-7.9.orig/tools/awstats_buildstaticpages.pl awstats-7.9/tools/awstats_buildstaticpages.pl
+--- awstats-7.9.orig/tools/awstats_buildstaticpages.pl	2021-08-19 04:00:58.000000000 +0200
++++ awstats-7.9/tools/awstats_buildstaticpages.pl	2024-01-07 20:10:32.230113241 +0100
+@@ -129,7 +129,7 @@
  	my @PossibleConfigDir=();
  
  	if ($configdir) { @PossibleConfigDir=("$configdir"); }
@@ -10,7 +10,7 @@ diff -Nur b.awstats-6.6/tools/awstats_buildstaticpages.pl n.awstats-6.6/tools/aw
  
  	# Open config file
  	$FileConfig=$FileSuffix='';
-@@ -293,8 +293,8 @@
+@@ -299,8 +299,8 @@
  # Check if AWSTATS prog is found
  my $AwstatsFound=0;
  if (-s "$Awstats") { $AwstatsFound=1; }
@@ -20,11 +20,11 @@ diff -Nur b.awstats-6.6/tools/awstats_buildstaticpages.pl n.awstats-6.6/tools/aw
 +	$Awstats="/usr/share/awstats/wwwroot/cgi-bin/awstats.pl";
  	$AwstatsFound=1;
  }
- if (! $AwstatsFound) {
-diff -Nur b.awstats-6.6/tools/awstats_configure.pl n.awstats-6.6/tools/awstats_configure.pl
---- b.awstats-6.6/tools/awstats_configure.pl	2006-02-08 23:26:14.000000000 +0100
-+++ n.awstats-6.6/tools/awstats_configure.pl	2007-01-16 13:15:15.000000000 +0100
-@@ -29,11 +29,11 @@
+ elsif (-s "/usr/lib/cgi-bin/awstats.pl") {
+diff -ur awstats-7.9.orig/tools/awstats_configure.pl awstats-7.9/tools/awstats_configure.pl
+--- awstats-7.9.orig/tools/awstats_configure.pl	2019-06-27 11:30:40.000000000 +0200
++++ awstats-7.9/tools/awstats_configure.pl	2024-01-07 20:10:32.231113254 +0100
+@@ -28,11 +28,11 @@
  $AWSTATS_DIRDATA_PATH
  /;
  $AWSTATS_PATH='';
@@ -41,7 +41,7 @@ diff -Nur b.awstats-6.6/tools/awstats_configure.pl n.awstats-6.6/tools/awstats_c
  $AWSTATS_DIRDATA_PATH='/var/lib/awstats';						# Used only when configure ran on linux
  
  
-@@ -608,7 +608,7 @@
+@@ -610,7 +610,7 @@
  		my $bidon='';
  		print "Directory path to store config file(s) (Enter for default):\n> ";
  		$bidon=<STDIN>; chomp $bidon;
@@ -50,10 +50,10 @@ diff -Nur b.awstats-6.6/tools/awstats_configure.pl n.awstats-6.6/tools/awstats_c
  		my $configdir=$bidon;
  		if (! -d $configdir) {
  			# Create the directory for config files
-diff -Nur b.awstats-6.6/tools/awstats_updateall.pl n.awstats-6.6/tools/awstats_updateall.pl
---- b.awstats-6.6/tools/awstats_updateall.pl	2006-07-24 01:57:48.000000000 +0200
-+++ n.awstats-6.6/tools/awstats_updateall.pl	2007-01-16 13:15:15.000000000 +0100
-@@ -13,7 +13,7 @@
+diff -ur awstats-7.9.orig/tools/awstats_updateall.pl awstats-7.9/tools/awstats_updateall.pl
+--- awstats-7.9.orig/tools/awstats_updateall.pl	2014-09-23 09:16:09.000000000 +0200
++++ awstats-7.9/tools/awstats_updateall.pl	2024-01-07 20:10:32.231113254 +0100
+@@ -12,7 +12,7 @@
  my $VERSION="1.0 (build $REVISION)";
  
  # Default value of DIRCONFIG
@@ -62,7 +62,7 @@ diff -Nur b.awstats-6.6/tools/awstats_updateall.pl n.awstats-6.6/tools/awstats_u
  
  my $Debug=0;
  
-@@ -130,8 +130,8 @@
+@@ -129,8 +129,8 @@
  	# Check if AWSTATS prog is found
  	my $AwstatsFound=0;
  	if (-s "$Awstats") { $AwstatsFound=1; }
@@ -73,13 +73,14 @@ diff -Nur b.awstats-6.6/tools/awstats_updateall.pl n.awstats-6.6/tools/awstats_u
  		$AwstatsFound=1;
  	}
  	if (! $AwstatsFound) {
---- awstats-7.0/wwwroot/cgi-bin/awstats.pl~	2011-01-13 13:23:54.000000000 +0200
-+++ awstats-7.0/wwwroot/cgi-bin/awstats.pl	2011-01-13 14:22:50.921961909 +0200
-@@ -1712,6 +1712,7 @@
+diff -ur awstats-7.9.orig/wwwroot/cgi-bin/awstats.pl awstats-7.9/wwwroot/cgi-bin/awstats.pl
+--- awstats-7.9.orig/wwwroot/cgi-bin/awstats.pl	2024-01-07 20:09:51.559596037 +0100
++++ awstats-7.9/wwwroot/cgi-bin/awstats.pl	2024-01-07 20:10:32.235113304 +0100
+@@ -1716,6 +1716,7 @@
  	my $configdir         = shift;
  	my @PossibleConfigDir = (
  			"$DIR",
 +			"/etc/webapps/awstats",
  			"/etc/awstats",
- 			"/usr/local/etc/awstats", "/etc",
+ 			"/usr/local/etc/awstats",
  			"/etc/opt/awstats"
